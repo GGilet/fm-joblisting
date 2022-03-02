@@ -66,6 +66,12 @@ Use this section to recap over some of your major learnings while working throug
 
 To see how you can add code snippets, see below:
 
+Async
+Await
+Fetch
+.Then
+API Management
+
 ```html
 <h1>Some HTML code I'm proud of</h1>
 ```

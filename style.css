@@ -2,7 +2,6 @@
 
 :root {
 	/* Primary */
-
 	--primaryCyan: hsl(180, 29%, 50%);
 
 	/* Neutrals */
@@ -13,6 +12,9 @@
 
 	/* Fonts */
 	--headingFont: 'Spartan', sans-serif;
+
+	/* Font Sizes */
+	--bodySize: 15px;
 }
 
 html,
