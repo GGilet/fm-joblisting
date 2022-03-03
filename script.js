@@ -33,8 +33,8 @@ async function getAPI() {
 
 // console.log(jobDatabase.jobs[]);
 
-async function getFiveJobs(jobArray) {
-	for (let i = 0; i < 5; i++) {
+async function getJobs(jobArray) {
+	for (let i = 0; i < 10; i++) {
 		jobDatabase.push(jobArray[i]);
 		// titles = jobDatabase.
 	}
@@ -45,7 +45,7 @@ async function getFiveJobs(jobArray) {
 }
 
 // console.log(getAPI());
-getAPI().then((data) => getFiveJobs(data['jobs']).then(displayJobBoard()));
+getAPI().then((data) => getJobs(data['jobs']).then(displayJobBoard()));
 
 // getAPI().then((data) => console.log(data['job-count']));
 
@@ -56,13 +56,13 @@ function displayJobBoard() {
 	for (let i = 0; i < jobDatabase.length; i++) {
 		let titleDiv = document.createElement('div');
 		let containerDiv = document.createElement('div');
-		containerDiv.classList.add('job-container');
-		containerDiv.appendChild(titleDiv);
+		// containerDiv.classList.add('job-container');
+		// containerDiv.appendChild(titleDiv);
 
-		// getFiveJobs();
-		titleDiv.innerText = jobDatabase[i].title;
-		document.getElementById('jobListings').appendChild(containerDiv);
-		titleDiv.innerText = jobDatabase[i].company_name;
+		// // getFiveJobs();
+		// titleDiv.innerText = jobDatabase[i].title;
+		// document.getElementById('jobListings').appendChild(containerDiv);
+		// titleDiv.innerText = jobDatabase[i].company_name;
 		// document.getElementById('jobListings').appendChild(div);
 	}
 	console.log(jobDatabase[1]);
