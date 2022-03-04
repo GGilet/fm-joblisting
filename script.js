@@ -54,16 +54,38 @@ getAPI().then((data) => getJobs(data['jobs']).then(displayJobBoard()));
 function displayJobBoard() {
 	// getFiveJobs(data['jobs']);
 	for (let i = 0; i < jobDatabase.length; i++) {
-		let titleDiv = document.createElement('div');
-		let containerDiv = document.createElement('div');
-		// containerDiv.classList.add('job-container');
-		// containerDiv.appendChild(titleDiv);
+		// let jobListings = document.getElementById('jobListings');
 
-		// // getFiveJobs();
-		// titleDiv.innerText = jobDatabase[i].title;
-		// document.getElementById('jobListings').appendChild(containerDiv);
-		// titleDiv.innerText = jobDatabase[i].company_name;
-		// document.getElementById('jobListings').appendChild(div);
+		let jobContainerDiv = document.createElement('div');
+		jobContainerDiv.classList.add('jobCardContainer');
+		jobContainerDiv.setAttribute('id', 'jobCardContainer');
+		// let jobCardContainerDiv = document.getElementById('jobCardContainer');
+
+		document.getElementById('jobListings').appendChild(jobContainerDiv);
+
+		let logoDiv = document.createElement('div');
+		logoDiv.classList.add('jobLogo');
+		let logoUrl = jobDatabase[i].company_logo;
+		logoDiv.style.backgroundImage = 'url(' + logoUrl + ')';
+
+		let jobListingInfoDiv = document.createElement('div');
+		jobListingInfoDiv.classList.add('jobListingInfo');
+
+		jobContainerDiv.appendChild(logoDiv);
+		jobContainerDiv.appendChild(jobListingInfoDiv);
+
+		let jobCompanyHeader = document.createElement('div');
+		jobCompanyHeader.classList.add('jobCompanyHeader');
+		jobListingInfoDiv.appendChild(jobCompanyHeader);
+
+		let jobCompanyName = document.createElement('div');
+		jobCompanyName.classList.add('jobCompanyName');
+		jobCompanyName.innerText = jobDatabase[i].company_name;
+		jobCompanyHeader.appendChild(jobCompanyName);
+
+		let jobPositionTitle = document.createElement('div');
+		jobPositionTitle.classList.add('jobPositionTitle');
+		jobPositionTitle.innerText = jobDatabase[i].title;
+		jobListingInfoDiv.appendChild(jobPositionTitle);
 	}
-	console.log(jobDatabase[1]);
 }
