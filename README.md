@@ -71,6 +71,8 @@ Await
 Fetch
 .Then
 API Management
+Mobile Responsive
+CSS Variables
 
 ```html
 <h1>Some HTML code I'm proud of</h1>
