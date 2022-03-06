@@ -81,7 +81,8 @@ function getCommonValues(baseArray, newArray) {
 
 function createFilterTags(commonTags, jobFilterTags) {
 	for (let i = 0; i < commonTags.length; i++) {
-		let jobFilters = document.createElement('div');
+		let jobFilters = document.createElement('button');
+		jobFilters.setAttribute('type', 'button');
 
 		jobFilters.innerText = commonTags[i];
 		jobFilterTags.appendChild(jobFilters);
@@ -92,6 +93,45 @@ function createDiv(tagName) {
 	div = document.createElement('div');
 	div.classList.add(tagName);
 	return div;
+}
+
+function createButton(tagName) {
+	btn = document.createElement('button');
+	btn.classList.add(tagName);
+	return btn;
+}
+
+function convertTimeToDays(jobPublicationDate) {
+	let today = new Date();
+	jobPublicationDate = new Date(jobPublicationDate);
+
+	let days = Math.floor((today - jobPublicationDate) / 1000 / 60 / 60 / 24);
+
+	return days;
+	// return days;
+
+	// console.log(today - jobPublicationDate);
+}
+
+function fromCurrentTime(jobPublicationDate) {
+	let days = Math.floor(convertTimeToDays(jobPublicationDate));
+	// for (let i = 0; i < 31; i++) {
+	// 	if ((days = i)) {
+	// 		console.log('Hours ago');
+	// 		break;
+	// 	}
+	// }
+	// console.log(days);
+
+	if (days <= 0) {
+		return 'Today';
+	} else if (days > 0 && days < 7) {
+		return days + 'd ago';
+	} else if (days >= 7 && days <= 28) {
+		return Math.floor(days / 7) + 'w ago';
+	} else if (days >= 29) {
+		return Math.floor(days / 29) + 'm ago';
+	}
 }
 
 function displayJobBoard() {
@@ -110,6 +150,7 @@ function displayJobBoard() {
 		let jobPositionType = createDiv('jobPositionType');
 		let jobRegion = createDiv('jobRegion');
 		let jobFilterTags = createDiv('jobFilterTags');
+		let jobNewPublication = createDiv('jobNewPublication');
 
 		jobCardContainer.setAttribute('id', 'jobCardContainer');
 
@@ -119,8 +160,9 @@ function displayJobBoard() {
 		jobLogo.style.backgroundImage = 'url(' + logoUrl + ')';
 		jobCompanyName.innerText = jobDatabase[i].company_name;
 		jobPositionTitle.innerText = jobDatabase[i].title;
-		jobPublishDate.innerText = jobDatabase[i].publication_date;
+		jobPublishDate.innerText = fromCurrentTime(jobDatabase[i].publication_date);
 		jobPositionType.innerText = jobDatabase[i].job_type;
+		jobNewPublication.innerText = 'New';
 
 		if ((jobPositionType.innerText = 'full_time')) {
 			jobPositionType.innerText = 'Full Time';
@@ -143,6 +185,9 @@ function displayJobBoard() {
 		jobListingInfo.appendChild(jobCompanyHeader);
 
 		jobCompanyHeader.appendChild(jobCompanyName);
+		if (jobPublishDate.innerText == 'Today') {
+			jobCompanyHeader.appendChild(jobNewPublication);
+		}
 
 		jobListingInfo.appendChild(jobPositionTitle);
 
@@ -160,15 +205,5 @@ function displayJobBoard() {
 
 		let commonTags = getCommonValues(jobTags, lowercaseFilters);
 		createFilterTags(commonTags, jobFilterTags);
-
-		// for (let i = 0; i < commonTags.length; i++) {
-		// 	let jobFilters = document.createElement('div');
-
-		// 	jobFilters.innerText = commonTags[i];
-		// 	jobFilterTags.appendChild(jobFilters);
-		// }
-		// console.log(commonTags);
-
-		// jobFilters.innerText = jobDatabase[i].tags;
 	}
 }
