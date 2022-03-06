@@ -30,28 +30,6 @@ async function getAPI() {
 	return data;
 }
 
-// function Job (title,
-
-// let jobDatabase = getAPI(api_url);
-
-// function showJobs(jobDatabase) {
-// 	let tab = `
-//     <tr>
-//     <th>Name</th>
-//           <th>Office</th>
-//           <th>Position</th>
-//           <th>Salary</th>
-//          </tr>
-//     `;
-
-//     for (let r of jobDatabase.list)
-//     {
-//         tab +=
-//     }
-// }
-
-// console.log(jobDatabase.jobs[]);
-
 async function getJobs(jobArray) {
 	for (let i = 0; i < 500; i++) {
 		jobDatabase.push(jobArray[i]);
@@ -63,16 +41,7 @@ async function getJobs(jobArray) {
 	// return (jobListings = jobDatabase);
 }
 
-// console.log(getAPI());
 getAPI().then((data) => getJobs(data['jobs']).then(displayJobBoard()));
-
-// getAPI().then((data) => console.log(data['job-count']));
-
-// console.log(jobDatabase);
-
-// function createDiv() {
-// 	return document.createElement('div');
-// }
 
 function getCommonValues(baseArray, newArray) {
 	let commonTags = newArray.filter((x) => baseArray.indexOf(x) !== -1);
@@ -108,20 +77,10 @@ function convertTimeToDays(jobPublicationDate) {
 	let days = Math.floor((today - jobPublicationDate) / 1000 / 60 / 60 / 24);
 
 	return days;
-	// return days;
-
-	// console.log(today - jobPublicationDate);
 }
 
 function fromCurrentTime(jobPublicationDate) {
 	let days = Math.floor(convertTimeToDays(jobPublicationDate));
-	// for (let i = 0; i < 31; i++) {
-	// 	if ((days = i)) {
-	// 		console.log('Hours ago');
-	// 		break;
-	// 	}
-	// }
-	// console.log(days);
 
 	if (days <= 0) {
 		return 'Today';
@@ -135,10 +94,7 @@ function fromCurrentTime(jobPublicationDate) {
 }
 
 function displayJobBoard() {
-	// getFiveJobs(data['jobs']);
 	for (let i = 0; i < jobDatabase.length; i++) {
-		// let jobListings = document.getElementById('jobListings');
-
 		let jobCardContainer = createDiv('jobCardContainer');
 		let jobLogo = createDiv('jobLogo');
 		let jobListingInfo = createDiv('jobListingInfo');
@@ -176,9 +132,6 @@ function displayJobBoard() {
 		}
 
 		jobRegion.innerText = jobDatabase[i].candidate_required_location;
-
-		//Job Listing Info
-		// jobListingInfoDiv.classList.add('jobListingInfo');
 
 		jobCardContainer.append(jobLogo, jobListingInfo);
 
