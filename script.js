@@ -73,24 +73,17 @@ function createButton(tagName) {
 function convertTimeToDays(jobPublicationDate) {
 	let today = new Date();
 	jobPublicationDate = new Date(jobPublicationDate);
-
 	let days = Math.floor((today - jobPublicationDate) / 1000 / 60 / 60 / 24);
-
 	return days;
 }
 
 function fromCurrentTime(jobPublicationDate) {
 	let days = Math.floor(convertTimeToDays(jobPublicationDate));
 
-	if (days <= 0) {
-		return 'Today';
-	} else if (days > 0 && days < 7) {
-		return days + 'd ago';
-	} else if (days >= 7 && days <= 28) {
-		return Math.floor(days / 7) + 'w ago';
-	} else if (days >= 29) {
-		return Math.floor(days / 29) + 'm ago';
-	}
+	if (days <= 0) return 'Today';
+	else if (days > 0 && days < 7) return days + 'd ago';
+	else if (days >= 7 && days <= 28) return Math.floor(days / 7) + 'w ago';
+	else if (days >= 29) return Math.floor(days / 29) + 'm ago';
 }
 
 function displayJobBoard() {
