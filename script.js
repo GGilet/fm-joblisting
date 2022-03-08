@@ -1,7 +1,7 @@
 let response = fetch('https://remotive.io/api/remote-jobs');
 const api_url = 'https://remotive.io/api/remote-jobs';
 let jobDatabase = [];
-let titles = [];
+// let titles = [];
 const jobTags = [
 	'it',
 	'devops',
@@ -21,6 +21,8 @@ const jobTags = [
 	'aws',
 	'php',
 	'security',
+	'junior',
+	'senior',
 ];
 
 async function getAPI() {
@@ -31,7 +33,7 @@ async function getAPI() {
 }
 
 async function getJobs(jobArray) {
-	for (let i = 0; i < 500; i++) {
+	for (let i = 0; i < 100; i++) {
 		jobDatabase.push(jobArray[i]);
 		// titles = jobDatabase.
 	}
@@ -58,10 +60,25 @@ function createFilterTags(commonTags, jobFilterTags) {
 	}
 }
 
+function changeToLowercase(jobFilters) {
+	let lowercaseFilters = jobFilters.map((jobFilters) =>
+		jobFilters.toLowerCase()
+	);
+	return lowercaseFilters;
+}
+
 function createDiv(tagName) {
 	div = document.createElement('div');
 	div.classList.add(tagName);
 	return div;
+}
+
+function createLink(tagName) {
+	a = document.createElement('a');
+	a.href = tagName;
+	a.setAttribute('id', 'jobUrl');
+	// a.classList.add(tagName);
+	return a;
 }
 
 function createButton(tagName) {
@@ -89,6 +106,7 @@ function fromCurrentTime(jobPublicationDate) {
 function displayJobBoard() {
 	for (let i = 0; i < jobDatabase.length; i++) {
 		let jobCardContainer = createDiv('jobCardContainer');
+		let jobUrl = createLink(jobDatabase[i].url);
 		let jobLogo = createDiv('jobLogo');
 		let jobListingInfo = createDiv('jobListingInfo');
 		let jobCompanyHeader = createDiv('jobCompanyHeader');
@@ -112,6 +130,7 @@ function displayJobBoard() {
 		jobPublishDate.innerText = fromCurrentTime(jobDatabase[i].publication_date);
 		jobPositionType.innerText = jobDatabase[i].job_type;
 		jobNewPublication.innerText = 'New';
+		// jobUrl.innerText = jobDatabase[i].url;
 
 		if ((jobPositionType.innerText = 'full_time')) {
 			jobPositionType.innerText = 'Full Time';
@@ -135,7 +154,8 @@ function displayJobBoard() {
 			jobCompanyHeader.appendChild(jobNewPublication);
 		}
 
-		jobListingInfo.appendChild(jobPositionTitle);
+		jobListingInfo.appendChild(jobUrl);
+		jobUrl.appendChild(jobPositionTitle);
 
 		jobListingInfo.appendChild(jobDemographics);
 
@@ -145,9 +165,7 @@ function displayJobBoard() {
 
 		let jobFiltersArray = [];
 		jobFiltersArray = jobDatabase[i].tags;
-		const lowercaseFilters = jobFiltersArray.map((jobFiltersArray) =>
-			jobFiltersArray.toLowerCase()
-		);
+		const lowercaseFilters = changeToLowercase(jobFiltersArray);
 
 		let commonTags = getCommonValues(jobTags, lowercaseFilters);
 		createFilterTags(commonTags, jobFilterTags);

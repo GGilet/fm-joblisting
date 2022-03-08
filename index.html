@@ -4,6 +4,10 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
 		<link rel="stylesheet" href="style.css" />
 		<script src="script.js" defer></script>
 		<!-- <link
@@ -16,76 +20,39 @@
 		<title>Frontend Mentor | Job Listings</title>
 	</head>
 	<body>
-		<header><h1>Job Listings</h1></header>
+		<header>
+			<h1>Job Listings</h1>
+		</header>
 		<div class="jobListings" id="jobListings">
-			<!-- <div id="jobCardContainer" class="jobCardContainer">
-				<div class="jobLogo"></div>
-				<div class="jobListingInfo">
-					<div class="jobCompanyHeader">
-						<div class="jobCompanyName">Photosnap</div>
-						<div class="jobNewPublication">New!</div>
+			<div class="jobFiltersContainer">
+				<div class="outFilterContainer">
+					<div class="filterContainer">
+						<div class="jobFilter">AWS</div>
+						<button type="button" id="filterButton">
+							<span class="material-icons"> close </span>
+						</button>
 					</div>
-					<div class="jobPositionTitle">Senior Frontend Developer</div>
-					<div class="jobDemographics">
-						<div class="jobPublishDate">1d ago</div>
-						<div class="jobPositionType">Full time</div>
-						<div class="jobRegion">USA only</div>
+					<div class="filterContainer">
+						<div class="jobFilter">CSS</div>
+						<button type="button" id="filterButton">
+							<span class="material-icons"> close </span>
+						</button>
 					</div>
-					<div class="jobFilterTags">
-						<div>Frontend</div>
-						<div>Senior</div>
-						<div>HTML</div>
-						<div>CSS</div>
-						<div>JavaScript</div>
+					<div class="filterContainer">
+						<div class="jobFilter">JAVASCRIPT</div>
+						<button type="button" id="filterButton">
+							<span class="material-icons"> close </span>
+						</button>
+					</div>
+					<div class="filterContainer">
+						<div class="jobFilter">SQL</div>
+						<button type="button" id="filterButton">
+							<span class="material-icons"> close </span>
+						</button>
 					</div>
 				</div>
+				<button type="reset" id="resetButton">Clear</button>
 			</div>
-
-			<div class="jobCardContainer">
-				<div class="jobLogo"></div>
-				<div class="jobListingInfo">
-					<div class="jobCompanyHeader">
-						<div class="jobCompanyName">Photosnap</div>
-						<div class="jobNewPublication">New!</div>
-					</div>
-					<div class="jobPositionTitle">Senior Frontend Developer</div>
-					<div class="jobDemographics">
-						<div class="jobPublishDate">1d ago</div>
-						<div class="jobPositionType">Full time</div>
-						<div class="jobRegion">USA only</div>
-					</div>
-					<div class="jobFilterTags">
-						<div>Frontend</div>
-						<div>Senior</div>
-						<div>HTML</div>
-						<div>CSS</div>
-						<div>JavaScript</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="jobCardContainer">
-				<div class="jobLogo"></div>
-				<div class="jobListingInfo">
-					<div class="jobCompanyHeader">
-						<div class="jobCompanyName">Photosnap</div>
-						<div class="jobNewPublication">New!</div>
-					</div>
-					<div class="jobPositionTitle">Senior Frontend Developer</div>
-					<div class="jobDemographics">
-						<div class="jobPublishDate">1d ago</div>
-						<div class="jobPositionType">Full time</div>
-						<div class="jobRegion">USA only</div>
-					</div>
-					<div class="jobFilterTags">
-						<div>Frontend</div>
-						<div>Senior</div>
-						<div>HTML</div>
-						<div>CSS</div>
-						<div>JavaScript</div>
-					</div>
-				</div>
-			</div> -->
 		</div>
 	</body>
 </html>

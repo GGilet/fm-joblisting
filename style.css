@@ -21,6 +21,10 @@
 	/* Logo Sizes  */
 	--mobileLogo: 50px;
 	--desktopLogo: 75px;
+
+	/*Header Height*/
+	--mobile: 150px;
+	--desktop: 120px;
 }
 
 html,
@@ -160,6 +164,99 @@ body {
 	font-family: var(--headingFont);
 	font-size: var(--bodySize);
 	background-color: var(--lightCyanBackground);
+	/* 
+	display: flex;
+	flex-direction: column;
+	flex-grow: inherit;
+	align-items: center; */
+}
+
+.jobFilters {
+	background-color: white;
+	position: absolute;
+	top: calc(var(--desktop) / 1.25);
+	/* width: 90%; */
+
+	padding: 10px 15px;
+
+	display: flex;
+	gap: 10px;
+
+	font-size: 0.75em;
+}
+
+.outFilterContainer {
+	margin: 0 auto;
+	display: flex;
+	width: 100%;
+	/* justify-content: ; */
+	gap: 1em;
+}
+
+.jobFiltersContainer {
+	background-color: white;
+	padding: 15px 30px;
+
+	border-radius: 8px;
+	display: flex;
+}
+
+.filterContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	flex-wrap: wrap;
+}
+
+.jobFilter {
+	background-color: var(--lightCyanFilters);
+	color: var(--primaryCyan);
+	padding: 0.75em 0.5em;
+	border-radius: 3px;
+
+	font-size: 0.53em;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	border-radius: 3px 0 0 3px;
+}
+
+.filterContainer button {
+	background-color: var(--primaryCyan);
+	cursor: pointer;
+
+	border-radius: 0 3px 3px 0;
+	color: white;
+	display: flex;
+	align-items: center;
+
+	height: 20px;
+}
+
+#filterButton:hover {
+	background-color: black;
+}
+
+.material-icons {
+	font-size: inherit;
+	font-weight: bolder;
+}
+
+#resetButton {
+	color: var(--primaryCyan);
+	font-weight: bold;
+	font-size: 0.75em;
+	cursor: pointer;
+}
+
+#resetButton:hover {
+	color: var(--primaryCyan);
+	font-weight: bold;
+	font-size: 0.75em;
+	cursor: pointer;
+
+	text-decoration: underline;
 }
 
 /* Header  */
@@ -172,6 +269,8 @@ header {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
+	width: 100%;
 }
 
 header h1 {
@@ -229,6 +328,12 @@ header h1 {
 	align-items: center;
 	gap: 1em;
 	padding: 0.5em 0;
+}
+
+#jobUrl {
+	color: var(--lightCyanFilters);
+	cursor: pointer;
+	width: fit-content;
 }
 
 .jobCompanyName {
@@ -313,7 +418,23 @@ header h1 {
 	cursor: pointer;
 }
 
+.jobFilterTags button:hover {
+	background-color: var(--primaryCyan);
+	color: white;
+}
+
 @media only screen and (min-width: 625px) {
+	header {
+		background-color: var(--primaryCyan);
+		background-image: url('./images/bg-header-desktop.svg');
+		background-size: cover;
+		background-repeat: no-repeat;
+		height: 120px;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 	.jobCardContainer {
 		-webkit-box-shadow: 14px 14px 15px -3px #bed3d0;
 		box-shadow: 14px 14px 15px -3px #bed3d0;
@@ -420,6 +541,7 @@ header h1 {
 
 		align-self: center;
 		justify-self: end;
+		padding-left: 0.75rem;
 	}
 
 	.jobNewPublication {
