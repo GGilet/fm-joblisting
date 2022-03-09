@@ -1,6 +1,7 @@
 let response = fetch('https://remotive.io/api/remote-jobs');
 const api_url = 'https://remotive.io/api/remote-jobs';
 let jobDatabase = [];
+let filteredTags = [];
 // let titles = [];
 const jobTags = [
 	'it',
@@ -43,20 +44,59 @@ async function getJobs(jobArray) {
 	// return (jobListings = jobDatabase);
 }
 
-getAPI().then((data) => getJobs(data['jobs']).then(displayJobBoard()));
+getAPI().then((data) =>
+	getJobs(data['jobs'])
+		.then(displayFilterBoard())
+
+		.then(displayJobBoard())
+
+		.then(filterFunctionality())
+);
 
 function getCommonValues(baseArray, newArray) {
 	let commonTags = newArray.filter((x) => baseArray.indexOf(x) !== -1);
 	return commonTags;
 }
 
-function createFilterTags(commonTags, jobFilterTags) {
+function isInArray(value, array) {
+	return array.indexOf(value) > -1;
+}
+
+function createFilterButtons(commonTags, jobFilterTags) {
 	for (let i = 0; i < commonTags.length; i++) {
 		let jobFilters = document.createElement('button');
 		jobFilters.setAttribute('type', 'button');
 
 		jobFilters.innerText = commonTags[i];
+		// addListeners(jobFilters);
 		jobFilterTags.appendChild(jobFilters);
+
+		jobFilters.addEventListener('click', () => {
+			let filterContainer = createDiv('filterContainer');
+			let jobFilter = createFilterDiv('jobFilter', jobFilters.innerText);
+			let filterButton = createButton('filterButton');
+			let imageSpan = createImageSpan();
+			let outFilterContainer = document.getElementById('outFilterContainer');
+			if (isInArray(jobFilters.innerText, filteredTags)) {
+				return;
+			}
+			outFilterContainer.append(filterContainer);
+			filterContainer.append(jobFilter);
+			filterContainer.append(filterButton);
+			filterButton.appendChild(imageSpan);
+			filteredTags.push(jobFilters.innerText);
+			console.table(filteredTags);
+
+			filterButton.addEventListener('click', () => {
+				outFilterContainer.removeChild(filterContainer);
+				for (let i = 0; i < filteredTags.length; i++) {
+					if (filteredTags[i] == jobFilters.innerText) {
+						filteredTags.splice(i, 1);
+					}
+				}
+				console.table(filteredTags);
+			});
+		});
 	}
 }
 
@@ -73,6 +113,30 @@ function createDiv(tagName) {
 	return div;
 }
 
+function createClearButton() {
+	clear = document.createElement('button');
+	clear.setAttribute('id', 'resetButton');
+	clear.setAttribute('type', 'reset');
+	clear.innerText = 'Clear';
+
+	// clear.addEventListener('click')
+	return clear;
+}
+
+function createFilterDiv(tagName, filter) {
+	div = document.createElement('div');
+	div.classList.add(tagName);
+	div.innerText = filter;
+	return div;
+}
+
+function createImageSpan() {
+	span = document.createElement('span');
+	span.classList.add('material-icons');
+	span.innerText = 'close';
+	return span;
+}
+
 function createLink(tagName) {
 	a = document.createElement('a');
 	a.href = tagName;
@@ -84,6 +148,7 @@ function createLink(tagName) {
 function createButton(tagName) {
 	btn = document.createElement('button');
 	btn.classList.add(tagName);
+	btn.setAttribute('id', tagName);
 	return btn;
 }
 
@@ -101,6 +166,24 @@ function fromCurrentTime(jobPublicationDate) {
 	else if (days > 0 && days < 7) return days + 'd ago';
 	else if (days >= 7 && days <= 28) return Math.floor(days / 7) + 'w ago';
 	else if (days >= 29) return Math.floor(days / 29) + 'm ago';
+}
+
+function displayFilterBoard() {
+	let jobFiltersContainer = createDiv('jobFiltersContainer');
+	let outFilterContainer = createDiv('outFilterContainer');
+	outFilterContainer.setAttribute('id', 'outFilterContainer');
+	// let filterContainer = createDiv('filterContainer');
+	let clearButton = createClearButton();
+	// let jobFilter = createFilterDiv('jobFilter',jobD);
+
+	document.getElementById('jobListings').append(jobFiltersContainer);
+	jobFiltersContainer.append(outFilterContainer, clearButton);
+	// outFilterContainer.append(filterContainer);
+	// filterContainer.append(jobFilter);
+
+	clearButton.addEventListener('click', () => {
+		filterContainer.innerText = '';
+	});
 }
 
 function displayJobBoard() {
@@ -121,7 +204,8 @@ function displayJobBoard() {
 
 		jobCardContainer.setAttribute('id', 'jobCardContainer');
 
-		document.getElementById('jobListings').appendChild(jobCardContainer);
+		// document.getElementById
+		document.getElementById('jobListings').append(jobCardContainer);
 
 		let logoUrl = jobDatabase[i].company_logo;
 		jobLogo.style.backgroundImage = 'url(' + logoUrl + ')';
@@ -163,11 +247,20 @@ function displayJobBoard() {
 
 		jobListingInfo.appendChild(jobFilterTags);
 
-		let jobFiltersArray = [];
-		jobFiltersArray = jobDatabase[i].tags;
+		let jobFiltersArray = changeToLowercase(jobDatabase[i].tags);
+		// jobFiltersArray = jobDatabase[i].tags;
 		const lowercaseFilters = changeToLowercase(jobFiltersArray);
 
 		let commonTags = getCommonValues(jobTags, lowercaseFilters);
-		createFilterTags(commonTags, jobFilterTags);
+		createFilterButtons(commonTags, jobFilterTags);
+	}
+}
+
+function filterFunctionality() {
+	for (let i = 0; i < jobDatabase.length; i++) {
+		let lowerCaseFilters = changeToLowercase(jobDatabase[i].tags);
+		let commonTags = getCommonValues(jobTags, lowerCaseFilters);
+		jobDatabase[i].tags = commonTags;
+		// console.log(jobDatabaseTest[i].tags);
 	}
 }

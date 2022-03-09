@@ -191,6 +191,7 @@ body {
 	width: 100%;
 	/* justify-content: ; */
 	gap: 1em;
+	flex-wrap: wrap;
 }
 
 .jobFiltersContainer {
@@ -203,8 +204,6 @@ body {
 
 .filterContainer {
 	display: flex;
-	align-items: center;
-	justify-content: center;
 
 	flex-wrap: wrap;
 }
@@ -248,6 +247,7 @@ body {
 	font-weight: bold;
 	font-size: 0.75em;
 	cursor: pointer;
+	padding-left: 30px;
 }
 
 #resetButton:hover {
