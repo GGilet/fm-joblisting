@@ -34,7 +34,7 @@ async function getAPI() {
 }
 
 async function getJobs(jobArray) {
-	for (let i = 0; i < 100; i++) {
+	for (let i = 0; i < 10; i++) {
 		jobDatabase.push(jobArray[i]);
 		// titles = jobDatabase.
 	}
@@ -47,10 +47,9 @@ async function getJobs(jobArray) {
 getAPI().then((data) =>
 	getJobs(data['jobs'])
 		.then(displayFilterBoard())
+		.then(filterFunctionality())
 
 		.then(displayJobBoard())
-
-		.then(filterFunctionality())
 );
 
 function getCommonValues(baseArray, newArray) {
@@ -68,7 +67,6 @@ function createFilterButtons(commonTags, jobFilterTags) {
 		jobFilters.setAttribute('type', 'button');
 
 		jobFilters.innerText = commonTags[i];
-		// addListeners(jobFilters);
 		jobFilterTags.appendChild(jobFilters);
 
 		jobFilters.addEventListener('click', () => {
@@ -77,7 +75,9 @@ function createFilterButtons(commonTags, jobFilterTags) {
 			let filterButton = createButton('filterButton');
 			let imageSpan = createImageSpan();
 			let outFilterContainer = document.getElementById('outFilterContainer');
+			// console.log(isInArray(jobFilters.innerText, filteredTags));
 			if (isInArray(jobFilters.innerText, filteredTags)) {
+				displayJobBoard();
 				return;
 			}
 			outFilterContainer.append(filterContainer);
@@ -85,8 +85,8 @@ function createFilterButtons(commonTags, jobFilterTags) {
 			filterContainer.append(filterButton);
 			filterButton.appendChild(imageSpan);
 			filteredTags.push(jobFilters.innerText);
-			console.table(filteredTags);
-
+			displayJobBoard();
+			// console.log();
 			filterButton.addEventListener('click', () => {
 				outFilterContainer.removeChild(filterContainer);
 				for (let i = 0; i < filteredTags.length; i++) {
@@ -94,7 +94,7 @@ function createFilterButtons(commonTags, jobFilterTags) {
 						filteredTags.splice(i, 1);
 					}
 				}
-				console.table(filteredTags);
+				displayJobBoard();
 			});
 		});
 	}
@@ -182,77 +182,210 @@ function displayFilterBoard() {
 	// filterContainer.append(jobFilter);
 
 	clearButton.addEventListener('click', () => {
-		filterContainer.innerText = '';
+		outFilterContainer.innerText = '';
 	});
 }
 
+// function isJobTagInFilter(jobTags, filter) {
+// 	for (let i = 0; i < jobTags.length; i++) {
+// 		for (let j = 0; j < jobTags[i].tags.length; j++) {
+// 			console.log(jobTags[i].tags);
+// 			// if (isInArray(jobTags, filter)) {
+// 			// 	return true;
+// 			// } else return false;
+// 		}
+// 	}
+// }
+
 function displayJobBoard() {
-	for (let i = 0; i < jobDatabase.length; i++) {
-		let jobCardContainer = createDiv('jobCardContainer');
-		let jobUrl = createLink(jobDatabase[i].url);
-		let jobLogo = createDiv('jobLogo');
-		let jobListingInfo = createDiv('jobListingInfo');
-		let jobCompanyHeader = createDiv('jobCompanyHeader');
-		let jobCompanyName = createDiv('jobCompanyName');
-		let jobPositionTitle = createDiv('jobPositionTitle');
-		let jobDemographics = createDiv('jobDemographics');
-		let jobPublishDate = createDiv('jobPublishDate');
-		let jobPositionType = createDiv('jobPositionType');
-		let jobRegion = createDiv('jobRegion');
-		let jobFilterTags = createDiv('jobFilterTags');
-		let jobNewPublication = createDiv('jobNewPublication');
+	let isInFilter = false;
+	if (document.getElementById('outFilterContainer').innerText == '') {
+		for (let i = 0; i < jobDatabase.length; i++) {
+			let jobCardContainer = createDiv('jobCardContainer');
+			let jobUrl = createLink(jobDatabase[i].url);
+			let jobLogo = createDiv('jobLogo');
+			let jobListingInfo = createDiv('jobListingInfo');
+			let jobCompanyHeader = createDiv('jobCompanyHeader');
+			let jobCompanyName = createDiv('jobCompanyName');
+			let jobPositionTitle = createDiv('jobPositionTitle');
+			let jobDemographics = createDiv('jobDemographics');
+			let jobPublishDate = createDiv('jobPublishDate');
+			let jobPositionType = createDiv('jobPositionType');
+			let jobRegion = createDiv('jobRegion');
+			let jobFilterTags = createDiv('jobFilterTags');
+			let jobNewPublication = createDiv('jobNewPublication');
 
-		jobCardContainer.setAttribute('id', 'jobCardContainer');
+			jobCardContainer.setAttribute('id', 'jobCardContainer');
 
-		// document.getElementById
-		document.getElementById('jobListings').append(jobCardContainer);
+			// document.getElementById
+			document.getElementById('jobListings').append(jobCardContainer);
 
-		let logoUrl = jobDatabase[i].company_logo;
-		jobLogo.style.backgroundImage = 'url(' + logoUrl + ')';
-		jobCompanyName.innerText = jobDatabase[i].company_name;
-		jobPositionTitle.innerText = jobDatabase[i].title;
-		jobPublishDate.innerText = fromCurrentTime(jobDatabase[i].publication_date);
-		jobPositionType.innerText = jobDatabase[i].job_type;
-		jobNewPublication.innerText = 'New';
-		// jobUrl.innerText = jobDatabase[i].url;
+			let logoUrl = jobDatabase[i].company_logo;
+			jobLogo.style.backgroundImage = 'url(' + logoUrl + ')';
+			jobCompanyName.innerText = jobDatabase[i].company_name;
+			jobPositionTitle.innerText = jobDatabase[i].title;
+			jobPublishDate.innerText = fromCurrentTime(
+				jobDatabase[i].publication_date
+			);
+			jobPositionType.innerText = jobDatabase[i].job_type;
+			jobNewPublication.innerText = 'New';
+			// jobUrl.innerText = jobDatabase[i].url;
 
-		if ((jobPositionType.innerText = 'full_time')) {
-			jobPositionType.innerText = 'Full Time';
-		} else if (
-			(jobPositionType.innerText = 'freelance') ||
-			(jobPositionType.innerText = 'contractor')
-		) {
-			jobPositionType.innerText = 'Contractor/Freelance';
-		} else {
-			jobPositionType.innerText = 'N/A';
+			if ((jobPositionType.innerText = 'full_time')) {
+				jobPositionType.innerText = 'Full Time';
+			} else if (
+				(jobPositionType.innerText = 'freelance') ||
+				(jobPositionType.innerText = 'contractor')
+			) {
+				jobPositionType.innerText = 'Contractor/Freelance';
+			} else {
+				jobPositionType.innerText = 'N/A';
+			}
+
+			jobRegion.innerText = jobDatabase[i].candidate_required_location;
+
+			jobCardContainer.append(jobLogo, jobListingInfo);
+
+			jobListingInfo.appendChild(jobCompanyHeader);
+
+			jobCompanyHeader.appendChild(jobCompanyName);
+			if (jobPublishDate.innerText == 'Today') {
+				jobCompanyHeader.appendChild(jobNewPublication);
+			}
+
+			jobListingInfo.appendChild(jobUrl);
+			jobUrl.appendChild(jobPositionTitle);
+
+			jobListingInfo.appendChild(jobDemographics);
+
+			jobDemographics.append(jobPublishDate, jobPositionType, jobRegion);
+
+			jobListingInfo.appendChild(jobFilterTags);
+
+			let jobFiltersArray = changeToLowercase(jobDatabase[i].tags);
+			// jobFiltersArray = jobDatabase[i].tags;
+			const lowercaseFilters = changeToLowercase(jobFiltersArray);
+
+			let commonTags = getCommonValues(jobTags, lowercaseFilters);
+			createFilterButtons(commonTags, jobFilterTags);
 		}
+	} else {
+		// document.getElementById('jobListings').innerHTML = '';
 
-		jobRegion.innerText = jobDatabase[i].candidate_required_location;
+		console.log(document.querySelectorAll('#jobCardContainer'));
 
-		jobCardContainer.append(jobLogo, jobListingInfo);
+		for (let i = 0; i < jobDatabase.length; i++) {
+			// isJobTagInFilter(jobDatabase[i], filteredTags);
 
-		jobListingInfo.appendChild(jobCompanyHeader);
+			for (let j = 0; j < jobDatabase[j].tags.length; j++) {
+				// console.log(jobDatabase[i].tags);
+				// let lowerCase = changeToLowercase(jobDatabase[i].tags);
 
-		jobCompanyHeader.appendChild(jobCompanyName);
-		if (jobPublishDate.innerText == 'Today') {
-			jobCompanyHeader.appendChild(jobNewPublication);
+				// console.log(filteredTags);
+				let lowerCaseTags = changeToLowercase(filteredTags);
+				// console.log('Filter Tags: ', lowerCaseTags);
+
+				console.log(isInArray(jobDatabase[i].tags[j], lowerCaseTags));
+				if (!isInArray(jobDatabase[i].tags[j], lowerCaseTags)) {
+					isInFilter = true;
+					break;
+				} else {
+					//It's removing everything HELP make it work
+					for (
+						let i = 1;
+						i < document.querySelectorAll('#jobCardContainer').length;
+						i++
+					) {
+						document
+							.getElementById('jobListings')
+							.remove(document.querySelectorAll('#jobCardContainer'));
+					}
+					// document.getElementById('jobListings').replaceChildren();
+					let jobCardContainer = createDiv('jobCardContainer');
+					let jobUrl = createLink(jobDatabase[i].url);
+					let jobLogo = createDiv('jobLogo');
+					let jobListingInfo = createDiv('jobListingInfo');
+					let jobCompanyHeader = createDiv('jobCompanyHeader');
+					let jobCompanyName = createDiv('jobCompanyName');
+					let jobPositionTitle = createDiv('jobPositionTitle');
+					let jobDemographics = createDiv('jobDemographics');
+					let jobPublishDate = createDiv('jobPublishDate');
+					let jobPositionType = createDiv('jobPositionType');
+					let jobRegion = createDiv('jobRegion');
+					let jobFilterTags = createDiv('jobFilterTags');
+					let jobNewPublication = createDiv('jobNewPublication');
+
+					jobCardContainer.setAttribute('id', 'jobCardContainer');
+
+					// document.getElementById
+					document.getElementById('jobListings').append(jobCardContainer);
+
+					let logoUrl = jobDatabase[i].company_logo;
+					jobLogo.style.backgroundImage = 'url(' + logoUrl + ')';
+					jobCompanyName.innerText = jobDatabase[i].company_name;
+					jobPositionTitle.innerText = jobDatabase[i].title;
+					jobPublishDate.innerText = fromCurrentTime(
+						jobDatabase[i].publication_date
+					);
+					jobPositionType.innerText = jobDatabase[i].job_type;
+					jobNewPublication.innerText = 'New';
+					// jobUrl.innerText = jobDatabase[i].url;
+
+					if ((jobPositionType.innerText = 'full_time')) {
+						jobPositionType.innerText = 'Full Time';
+					} else if (
+						(jobPositionType.innerText = 'freelance') ||
+						(jobPositionType.innerText = 'contractor')
+					) {
+						jobPositionType.innerText = 'Contractor/Freelance';
+					} else {
+						jobPositionType.innerText = 'N/A';
+					}
+
+					jobRegion.innerText = jobDatabase[i].candidate_required_location;
+
+					jobCardContainer.append(jobLogo, jobListingInfo);
+
+					jobListingInfo.appendChild(jobCompanyHeader);
+
+					jobCompanyHeader.appendChild(jobCompanyName);
+					if (jobPublishDate.innerText == 'Today') {
+						jobCompanyHeader.appendChild(jobNewPublication);
+					}
+
+					jobListingInfo.appendChild(jobUrl);
+					jobUrl.appendChild(jobPositionTitle);
+
+					jobListingInfo.appendChild(jobDemographics);
+
+					jobDemographics.append(jobPublishDate, jobPositionType, jobRegion);
+
+					jobListingInfo.appendChild(jobFilterTags);
+
+					let jobFiltersArray = changeToLowercase(jobDatabase[i].tags);
+					// jobFiltersArray = jobDatabase[i].tags;
+					const lowercaseFilters = changeToLowercase(jobFiltersArray);
+
+					let commonTags = getCommonValues(jobTags, lowercaseFilters);
+					createFilterButtons(commonTags, jobFilterTags);
+				}
+				// if (isInArray(jobDatabase[j].tags, filteredTags)) {
+				// 	console.log(jobDatabase[j].length);
+				// 	return;
+				// }
+			}
+			// console.log();
+
+			// for (let j = 0; j < jobDatabase[i].tags.length; j++) {
+			// 	console.log(jobDatabase[j].tags.length);
+			// 	// if (!isInArray(jobDatabase[j].tags, filteredTags)) {
+			// 	// 	console.log('the tag is in the array');
+			// 	// }
+			// }
 		}
-
-		jobListingInfo.appendChild(jobUrl);
-		jobUrl.appendChild(jobPositionTitle);
-
-		jobListingInfo.appendChild(jobDemographics);
-
-		jobDemographics.append(jobPublishDate, jobPositionType, jobRegion);
-
-		jobListingInfo.appendChild(jobFilterTags);
-
-		let jobFiltersArray = changeToLowercase(jobDatabase[i].tags);
-		// jobFiltersArray = jobDatabase[i].tags;
-		const lowercaseFilters = changeToLowercase(jobFiltersArray);
-
-		let commonTags = getCommonValues(jobTags, lowercaseFilters);
-		createFilterButtons(commonTags, jobFilterTags);
+		// for (let i = 0; i < jobDatabase[i].tags.length; i++) {
+		// 	console.log(jobDatabase[i].tags);
+		// }
 	}
 }
 
