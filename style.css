@@ -16,7 +16,8 @@
 	--headingFont: 'Spartan', sans-serif;
 
 	/* Font Sizes */
-	--bodySize: 15px;
+	--bodySize: 3vmin;
+	--desktopBodySize: 2.5vmin;
 
 	/* Logo Sizes  */
 	--mobileLogo: 50px;
@@ -204,7 +205,7 @@ body {
 
 .filterContainer {
 	display: flex;
-
+	align-items: center;
 	flex-wrap: wrap;
 }
 
@@ -230,7 +231,10 @@ body {
 	display: flex;
 	align-items: center;
 
-	height: 20px;
+	height: 100%;
+	/* width: 2em; */
+
+	font-size: 0.75em;
 }
 
 #filterButton:hover {
@@ -424,6 +428,17 @@ header h1 {
 }
 
 @media only screen and (min-width: 625px) {
+	body {
+		font-family: var(--headingFont);
+		font-size: var(--desktopBodySize);
+		background-color: var(--lightCyanBackground);
+		/* 
+		display: flex;
+		flex-direction: column;
+		flex-grow: inherit;
+		align-items: center; */
+	}
+
 	header {
 		background-color: var(--primaryCyan);
 		background-image: url('./images/bg-header-desktop.svg');

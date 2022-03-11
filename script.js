@@ -34,7 +34,7 @@ async function getAPI() {
 }
 
 async function getJobs(jobArray) {
-	for (let i = 0; i < 100; i++) {
+	for (let i = 0; i < 500; i++) {
 		jobDatabase.push(jobArray[i]);
 		// titles = jobDatabase.
 	}
@@ -318,7 +318,7 @@ function displayJobBoard() {
 			// console.log(resultsArray);
 
 			generateJobCard(i);
-			console.log(matchedTags);
+			console.log('matched: ', matchedTags, 'filtered: ', filteredTags.length);
 
 			if (matchedTags != filteredTags.length) {
 				document.getElementById('jobListings').lastElementChild.remove();
